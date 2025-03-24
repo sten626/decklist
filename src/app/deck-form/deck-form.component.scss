@@ -1,0 +1,16 @@
+form {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font: var(--mat-sys-title-large);
+  }
+
+  mat-button-toggle-group {
+    width: 750px;
+
+    mat-button-toggle {
+      flex: 1;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+<form [formGroup]="deckForm">
+  <h2>Personal Information</h2>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>First name</mat-label>
+    <input matInput formControlName="firstName" />
+  </mat-form-field>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Last name</mat-label>
+    <input matInput formControlName="lastName" />
+  </mat-form-field>
+
+  <h2>Event Information</h2>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Event</mat-label>
+    <input matInput formControlName="event" />
+  </mat-form-field>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Event date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Event location</mat-label>
+    <input matInput formControlName="location" />
+  </mat-form-field>
+
+  <h2>Deck Information</h2>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Deck name</mat-label>
+    <input matInput formControlName="deckName" />
+  </mat-form-field>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Deck designer</mat-label>
+    <input matInput formControlName="designer" />
+  </mat-form-field>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Main deck</mat-label>
+    <textarea matInput formControlName="mainDeck"></textarea>
+  </mat-form-field>
+
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Sideboard</mat-label>
+    <textarea matInput formControlName="sideboard"></textarea>
+  </mat-form-field>
+
+  <h2>Deck Sort Order</h2>
+
+  <section>
+    <mat-button-toggle-group formControlName="sortOrder">
+      <mat-button-toggle value="alpha">Alphabetically</mat-button-toggle>
+      <mat-button-toggle value="colour">Colour</mat-button-toggle>
+      <mat-button-toggle value="mv">Mana Value</mat-button-toggle>
+      <mat-button-toggle value="original">Original</mat-button-toggle>
+      <mat-button-toggle value="type">Type</mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
+</form>

@@ -1,18 +1,16 @@
-import { Component } from "@angular/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { provideNativeDateAdapter } from "@angular/material/core";
+import { Component } from '@angular/core';
+import { DeckFormComponent } from './deck-form/deck-form.component';
+
 // import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   // imports: [RouterOutlet],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
-  imports: [MatDatepickerModule, MatFormFieldModule, MatInputModule],
-  providers: [provideNativeDateAdapter()],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
+  imports: [DeckFormComponent],
+  providers: [],
 })
 export class AppComponent {
-  title = "decklist";
+  title = 'decklist';
 }

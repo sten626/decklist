@@ -1,41 +1,7 @@
 <main>
   <div class="content">
     <div class="left-pane">
-      <form>
-        <h2>Personal Information</h2>
-
-        <mat-form-field appearance="fill">
-          <mat-label>First name</mat-label>
-          <input matInput />
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Last name</mat-label>
-          <input matInput />
-        </mat-form-field>
-
-        <h2>Event Information</h2>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Event</mat-label>
-          <input matInput />
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Event date</mat-label>
-          <input matInput [matDatepicker]="picker" />
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Event location</mat-label>
-          <input matInput />
-        </mat-form-field>
-      </form>
+      <dl-deck-form></dl-deck-form>
     </div>
 
     <div class="right-pane">Right</div>
