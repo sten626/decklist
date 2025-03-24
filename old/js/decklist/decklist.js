@@ -11,9 +11,11 @@
 //   unparseable: [ string, ... ]
 // }
 var Decklist = {
-  parse: function(deckmain, deckside) {
-    deckmain = deckmain || $('#deckmain').val(), deckmain = deckmain.split('\n'),
-    deckside = deckside || $('#deckside').val(), deckside = deckside.split('\n');
+  parse: function (deckmain, deckside) {
+    (deckmain = deckmain || $('#deckmain').val()),
+      (deckmain = deckmain.split('\n')),
+      (deckside = deckside || $('#deckside').val()),
+      (deckside = deckside.split('\n'));
     var lists = {
       main: [],
       side: [],
@@ -22,17 +24,20 @@ var Decklist = {
     };
     const cardRE = {
       main: [
-        /^\s*(\d+)\s+\[.*\]\s+(.+?)\s*$/,      // MWS, what an ugly format
-        /^\s*(\d+)x*\s(.+?)\s*$/,              // MTGO deck format (4 Brainstorm) also TCG (4x Brainstorm)
+        /^\s*(\d+)\s+\[.*\]\s+(.+?)\s*$/, // MWS, what an ugly format
+        /^\s*(\d+)x*\s(.+?)\s*$/, // MTGO deck format (4 Brainstorm) also TCG (4x Brainstorm)
       ],
       side: [
         /^\s*SB:\s*(\d+)\s+\[.*\]\s(.+?)\s*$/, // MWS, what an ugly format
-        /^\s*SB:\s+(\d+)\s(.+?)\s*$/,          // Sideboard lines begin with SB:
+        /^\s*SB:\s+(\d+)\s(.+?)\s*$/, // Sideboard lines begin with SB:
       ],
     };
 
     // Get cards from maindeck and sideboard inputs
-    lists = list_merge(lists, scan(deckmain, cardRE['main'].concat(cardRE['side'])));
+    lists = list_merge(
+      lists,
+      scan(deckmain, cardRE['main'].concat(cardRE['side']))
+    );
     lists = list_merge(lists, scan(deckside, cardRE['main'], 'side'));
 
     // de-duplicate unrecognized card names
@@ -86,8 +91,8 @@ var Decklist = {
             // card is not recognized; create a dummy card object
             var encodedCardName = htmlEncode(cardName);
             card = {
-              'n': encodedCardName,
-              'q': quantity,
+              n: encodedCardName,
+              q: quantity,
             };
             // add card name to unrecognized array only if it is not already present
             if (identified['unrecognized'].indexOf(encodedCardName) === -1) {
@@ -114,7 +119,12 @@ var Decklist = {
       // Accepts a string
       // Returns a string with HTML-unsafe entities escaped
       function htmlEncode(string) {
-        return string.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return string
+          .replace(/&/g, '&amp;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
       }
       // Finds the card object from the global cards object
       // Accepts a card name string
@@ -186,10 +196,15 @@ var Decklist = {
   // Accepts a deck list (array of card objects) and an optional sort order
   // If no order is passed, it is read from the sort order input on the page
   // Returns the deck list after being sorted via the given order
-  sort: function(deck, sortorder) {
-    let formsortorder = $('#sortorderfloat input[name=sortorder]:checked').prop('id').replace('sort-', '');
+  sort: function (deck, sortorder) {
+    let formsortorder = $('#sortorderfloat input[name=sortorder]:checked')
+      .prop('id')
+      .replace('sort-', '');
     // to allow the function to be mappable, we force non-string "sortorder" values to default to user-entered sort order
-    sortorder = typeof sortorder === 'string' ? sortorder || formsortorder : formsortorder;
+    sortorder =
+      typeof sortorder === 'string'
+        ? sortorder || formsortorder
+        : formsortorder;
 
     if (sortorder === 'original') {
       return deck;
@@ -205,7 +220,11 @@ var Decklist = {
       deck.sort(typeCardSort);
     } else {
       // TODO: move to notifications
-      console.error('Unrecognized sort order passed: ' + sortorder + ', no deck sorting will be performed.');
+      console.error(
+        'Unrecognized sort order passed: ' +
+          sortorder +
+          ', no deck sorting will be performed.'
+      );
     }
     return deck;
 
@@ -270,14 +289,19 @@ var Decklist = {
   // Accepts a (presumably sorted) decklist (array of card objects) and an optional section type to separate sections by
   // If no section type is passed, it is read from the sort order input on the page
   // Returns a decklist that contains the argument's cards with separators between sections as defined by sectionType
-  section: function(deck, sectionType) {
-    let formSectionType = $('#sortorderfloat input[name=sortorder]:checked').prop('id').replace('sort-', '');
+  section: function (deck, sectionType) {
+    let formSectionType = $('#sortorderfloat input[name=sortorder]:checked')
+      .prop('id')
+      .replace('sort-', '');
     // to allow the function to be mappable, we force non-string "sectionType" values to default to user-entered sort order
-    sectionType = typeof sectionType === 'string' ? sectionType || formSectionType : formSectionType;
+    sectionType =
+      typeof sectionType === 'string'
+        ? sectionType || formSectionType
+        : formSectionType;
 
     if (sectionType === 'cmc') {
       return addSections(deck, 'm');
-    } else if (sectionType ==='color') {
+    } else if (sectionType === 'color') {
       return addSections(deck, 'c');
     } else if (sectionType === 'type') {
       return addSections(deck, 't');
@@ -305,9 +329,9 @@ var Decklist = {
 
   // Accepts a deck list (array of card objects)
   // Returns a count of number of cards in a given deck
-  count: function(deck) {
+  count: function (deck) {
     var count = 0;
-    Object.values(deck).forEach(function(card) {
+    Object.values(deck).forEach(function (card) {
       count += card['q'];
     });
     return count;
@@ -317,11 +341,11 @@ var Decklist = {
   // Accepts a deck list (array of card objects), a card field, an allowed value
   // or array of allowed values, and an optional mode--"include" or "exclude" (default is "include")
   // Returns the filtered deck list, only including (or excluding) the given field values
-  filter: function(deck, field, values, mode = 'include') {
+  filter: function (deck, field, values, mode = 'include') {
     if (!Array.isArray(values)) {
       values = [values];
     }
-    return deck.filter(function(card) {
+    return deck.filter(function (card) {
       let include = false;
       if (card.hasOwnProperty(field) && values.includes(card[field])) {
         include = true;
@@ -331,5 +355,5 @@ var Decklist = {
       }
       return include;
     });
-  }
-}
+  },
+};
