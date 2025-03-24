@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { DeckFormComponent } from './deck-form/deck-form.component';
+import { PreviewComponent } from './preview/preview.component';
+import { StatusComponent } from './status/status.component';
 
 // import { RouterOutlet } from '@angular/router';
 
@@ -8,7 +10,7 @@ import { DeckFormComponent } from './deck-form/deck-form.component';
   // imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [DeckFormComponent],
+  imports: [DeckFormComponent, PreviewComponent, StatusComponent],
   providers: [],
 })
 export class AppComponent {

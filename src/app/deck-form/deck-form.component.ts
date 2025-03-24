@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatFormFieldAppearance,
   MatFormFieldModule,
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'dl-deck-form',
@@ -25,8 +30,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class DeckFormComponent {
   appearance: MatFormFieldAppearance = 'outline';
   deckForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    dciNum: new FormControl(''),
     event: new FormControl(''),
     date: new FormControl(''),
     location: new FormControl(''),
