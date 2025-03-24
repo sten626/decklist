@@ -1,0 +1,35 @@
+main {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding: {
+    left: 24px;
+    right: 24px;
+  }
+  min-height: 100%;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  gap: 24px;
+  justify-content: space-around;
+  width: 100%;
+
+  h2 {
+    font: var(--mat-sys-title-large);
+  }
+
+  .left-pane {
+    flex: 1 1 auto;
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .right-pane {
+    flex: 0 0 360px;
+  }
+}
