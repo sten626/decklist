@@ -1,18 +1,32 @@
 import { Injectable } from '@angular/core';
+import { CardService } from './card.service';
 
 const cardRegex = /^\s*(\d+)x*\s(.+?)\s*$/; // Unsure if there are any other common formats anymore..
 const sideboardStartRegex = /^\s*Sideboard/i; // Tappedout looks like MTGO, except sideboard begins with "Sideboard:"; Salvation, same, but no colon
+
+interface CardData {
+  name: string;
+  quantity: number;
+  color?: string;
+  mv: number;
+  type: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class DecklistParser {
-  parse(mainString: string, sideString: string) {
+  constructor(private cardService: CardService) {}
+
+  parse(
+    mainString: string,
+    sideString: string
+  ): [CardData[], CardData[], string[], string[]] {
     const mainLines = mainString.split('\n');
     const sideLines = sideString.split('\n');
 
-    const main: string[] = [];
-    const side: string[] = [];
+    const main: CardData[] = [];
+    const side: CardData[] = [];
     const unrecognized: string[] = [];
     const unparseable: string[] = [];
     let currentList = main;
@@ -37,13 +51,23 @@ export class DecklistParser {
 
       const quantity = parseInt(match[1]);
       const cardName = match[2];
-      // TODO: Get card data
-      currentList.push(`${quantity} ${cardName}`);
+      const cardData = this.cardService.getCard(cardName);
+
+      if (!cardData) {
+        unrecognized.push(cardName);
+        continue;
+      }
+
+      console.log(cardData);
+      currentList.push({
+        name: cardData.n,
+        quantity,
+        color: cardData.c,
+        mv: cardData.m,
+        type: cardData.t,
+      });
     }
 
-    console.log(main);
-    console.log(side);
-    console.log(unrecognized);
-    console.log(unparseable);
+    return [main, side, unrecognized, unparseable];
   }
 }

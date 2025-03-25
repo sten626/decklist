@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { DecklistFormData } from './decklist-form-data';
-import { BehaviorSubject, distinctUntilChanged, map, tap } from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, map } from 'rxjs';
 import { DecklistParser } from './decklist-parser.service';
 
 @Injectable({
@@ -10,11 +10,13 @@ export class DecklistService {
   private decklistParser = inject(DecklistParser);
   private formData = new BehaviorSubject<DecklistFormData | null>(null);
 
-  mainDeck$ = this.formData
+  cardLists$ = this.formData
     .pipe(
-      map((formData) => formData?.mainDeck),
+      map((formData) => [formData?.mainDeck, formData?.sideboard]),
       distinctUntilChanged(),
-      map((mainDeck) => this.decklistParser.parse(mainDeck || '', ''))
+      map(([mainDeck, sideboard]) =>
+        this.decklistParser.parse(mainDeck || '', sideboard || '')
+      )
     )
     .subscribe((deck) => console.log(deck));
 
